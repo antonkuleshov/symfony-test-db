@@ -19,6 +19,15 @@ class EmployeeRepository extends ServiceEntityRepository
         parent::__construct($registry, Employee::class);
     }
 
+    public function queryEmployees()
+    {
+        $em = $this->getEntityManager();
+
+        $dql = "SELECT e FROM App\Entity\Employee e";
+
+        return $em->createQuery($dql);
+    }
+
     public function findByMaxResult($value)
     {
         return $this->createQueryBuilder('e')

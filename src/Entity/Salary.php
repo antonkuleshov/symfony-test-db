@@ -36,7 +36,7 @@ class Salary
     private $toDate;
 
     /**
-     * @var \Employees
+     * @var Employee
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")

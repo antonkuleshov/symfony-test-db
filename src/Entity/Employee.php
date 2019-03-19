@@ -86,7 +86,7 @@ class Employee
      *   }
      * )
      */
-    private $deptNoTwo;
+    private $deptNoManager;
 
     /**
      * Constructor
@@ -94,7 +94,7 @@ class Employee
     public function __construct()
     {
         $this->deptNo = new ArrayCollection();
-        $this->deptNoTwo = new ArrayCollection();
+        $this->deptNoManager = new ArrayCollection();
     }
 
     public function getEmpNo(): ?int
@@ -191,24 +191,24 @@ class Employee
     /**
      * @return Collection|Department[]
      */
-    public function getDeptNoTwo(): Collection
+    public function getDeptNoManager(): Collection
     {
-        return $this->deptNoTwo;
+        return $this->deptNoManager;
     }
 
-    public function addDeptNoTwo(Department $deptNoTwo): self
+    public function addDeptNoManager(Department $deptNoManager): self
     {
-        if (!$this->deptNoTwo->contains($deptNoTwo)) {
-            $this->deptNoTwo[] = $deptNoTwo;
+        if (!$this->deptNoManager->contains($deptNoManager)) {
+            $this->deptNoManager[] = $deptNoManager;
         }
 
         return $this;
     }
 
-    public function removeDeptNoTwo(Department $deptNoTwo): self
+    public function removeDeptNoManager(Department $deptNoManager): self
     {
-        if ($this->deptNoTwo->contains($deptNoTwo)) {
-            $this->deptNoTwo->removeElement($deptNoTwo);
+        if ($this->deptNoManager->contains($deptNoManager)) {
+            $this->deptNoManager->removeElement($deptNoManager);
         }
 
         return $this;

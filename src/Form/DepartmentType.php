@@ -13,8 +13,6 @@ class DepartmentType extends AbstractType
     {
         $builder
             ->add('deptName')
-            ->add('empNo')
-            ->add('empNoTwo')
         ;
     }
 

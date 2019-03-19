@@ -40,9 +40,12 @@ class Department
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Employee", mappedBy="deptNoTwo")
+     * @ORM\ManyToMany(targetEntity="Employee", mappedBy="deptNoManager")
      */
-    private $empNoTwo;
+    private $empNoManager;
+
+    private $fromDate;
+    private $toDate;
 
     /**
      * Constructor
@@ -50,7 +53,7 @@ class Department
     public function __construct()
     {
         $this->empNo = new ArrayCollection();
-        $this->empNoTwo = new ArrayCollection();
+        $this->empNoManager = new ArrayCollection();
     }
 
     public function __toString()
@@ -106,29 +109,52 @@ class Department
     /**
      * @return Collection|Employee[]
      */
-    public function getEmpNoTwo(): Collection
+    public function getEmpNoManager(): Collection
     {
-        return $this->empNoTwo;
+        return $this->empNoManager;
     }
 
-    public function addEmpNoTwo(Employee $empNoTwo): self
+    public function addEmpNoManager(Employee $empNoManager): self
     {
-        if (!$this->empNoTwo->contains($empNoTwo)) {
-            $this->empNoTwo[] = $empNoTwo;
-            $empNoTwo->addDeptNoTwo($this);
+        if (!$this->empNoManager->contains($empNoManager)) {
+            $this->empNoManager[] = $empNoManager;
+            $empNoManager->addDeptNoTwo($this);
         }
 
         return $this;
     }
 
-    public function removeEmpNoTwo(Employee $empNoTwo): self
+    public function removeEmpNoManager(Employee $empNoManager): self
     {
-        if ($this->empNoTwo->contains($empNoTwo)) {
-            $this->empNoTwo->removeElement($empNoTwo);
-            $empNoTwo->removeDeptNoTwo($this);
+        if ($this->empNoManager->contains($empNoManager)) {
+            $this->empNoManager->removeElement($empNoManager);
+            $empNoManager->removeDeptNoTwo($this);
         }
 
         return $this;
     }
 
+    public function getFromDate(): ?\DateTimeInterface
+    {
+        return $this->fromDate;
+    }
+
+    public function setFromDate(\DateTimeInterface $fromDate): self
+    {
+        $this->fromDate = $fromDate;
+
+        return $this;
+    }
+
+    public function getToDate(): ?\DateTimeInterface
+    {
+        return $this->toDate;
+    }
+
+    public function setToDate(\DateTimeInterface $toDate): self
+    {
+        $this->toDate = $toDate;
+
+        return $this;
+    }
 }

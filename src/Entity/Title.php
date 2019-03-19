@@ -38,7 +38,7 @@ class Title
     private $toDate;
 
     /**
-     * @var \Employees
+     * @var Employee
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
