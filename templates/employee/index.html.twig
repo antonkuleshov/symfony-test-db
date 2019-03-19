@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Employees index{% endblock %}
+{% block title %}Employee index{% endblock %}
 
 {% block body %}
-    <h1>Employees index</h1>
+    <h1>Employee index</h1>
 
     <table class="table">
         <thead>
@@ -27,8 +27,8 @@
                 <td>{{ employee.gender }}</td>
                 <td>{{ employee.hireDate ? employee.hireDate|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('employees_show', {'empNo': employee.empNo}) }}">show</a>
-                    <a href="{{ path('employees_edit', {'empNo': employee.empNo}) }}">edit</a>
+                    <a href="{{ path('employee_show', {'empNo': employee.empNo}) }}">show</a>
+                    <a href="{{ path('employee_edit', {'empNo': employee.empNo}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('employees_new') }}">Create new</a>
+    <a href="{{ path('employee_new') }}">Create new</a>
 {% endblock %}

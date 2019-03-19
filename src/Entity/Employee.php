@@ -7,12 +7,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Employees
+ * Employee
  *
  * @ORM\Table(name="employees")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\EmployeeRepository")
  */
-class Employees
+class Employee
 {
     /**
      * @var int
@@ -61,7 +61,7 @@ class Employees
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Departments", inversedBy="empNo")
+     * @ORM\ManyToMany(targetEntity="Department", inversedBy="empNo")
      * @ORM\JoinTable(name="dept_manager",
      *   joinColumns={
      *     @ORM\JoinColumn(name="emp_no", referencedColumnName="emp_no")
@@ -76,7 +76,7 @@ class Employees
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Departments", inversedBy="empNo")
+     * @ORM\ManyToMany(targetEntity="Department", inversedBy="empNo")
      * @ORM\JoinTable(name="dept_emp",
      *   joinColumns={
      *     @ORM\JoinColumn(name="emp_no", referencedColumnName="emp_no")
@@ -163,14 +163,14 @@ class Employees
     }
 
     /**
-     * @return Collection|Departments[]
+     * @return Collection|Department[]
      */
     public function getDeptNo(): Collection
     {
         return $this->deptNo;
     }
 
-    public function addDeptNo(Departments $deptNo): self
+    public function addDeptNo(Department $deptNo): self
     {
         if (!$this->deptNo->contains($deptNo)) {
             $this->deptNo[] = $deptNo;
@@ -179,7 +179,7 @@ class Employees
         return $this;
     }
 
-    public function removeDeptNo(Departments $deptNo): self
+    public function removeDeptNo(Department $deptNo): self
     {
         if ($this->deptNo->contains($deptNo)) {
             $this->deptNo->removeElement($deptNo);
@@ -189,14 +189,14 @@ class Employees
     }
 
     /**
-     * @return Collection|Departments[]
+     * @return Collection|Department[]
      */
     public function getDeptNoTwo(): Collection
     {
         return $this->deptNoTwo;
     }
 
-    public function addDeptNoTwo(Departments $deptNoTwo): self
+    public function addDeptNoTwo(Department $deptNoTwo): self
     {
         if (!$this->deptNoTwo->contains($deptNoTwo)) {
             $this->deptNoTwo[] = $deptNoTwo;
@@ -205,7 +205,7 @@ class Employees
         return $this;
     }
 
-    public function removeDeptNoTwo(Departments $deptNoTwo): self
+    public function removeDeptNoTwo(Department $deptNoTwo): self
     {
         if ($this->deptNoTwo->contains($deptNoTwo)) {
             $this->deptNoTwo->removeElement($deptNoTwo);

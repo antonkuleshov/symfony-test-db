@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Salaries
+ * Salary
  *
  * @ORM\Table(name="salaries", indexes={@ORM\Index(name="IDX_E6EEB84BA2F57F47", columns={"emp_no"})})
  * @ORM\Entity
  */
-class Salaries
+class Salary
 {
     /**
      * @var \DateTime
@@ -40,7 +40,7 @@ class Salaries
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Employees")
+     * @ORM\OneToOne(targetEntity="Employee")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="emp_no", referencedColumnName="emp_no")
      * })
@@ -76,12 +76,12 @@ class Salaries
         return $this;
     }
 
-    public function getEmpNo(): ?Employees
+    public function getEmpNo(): ?Employee
     {
         return $this->empNo;
     }
 
-    public function setEmpNo(?Employees $empNo): self
+    public function setEmpNo(?Employee $empNo): self
     {
         $this->empNo = $empNo;
 

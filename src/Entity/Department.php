@@ -7,12 +7,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Departments
+ * Department
  *
  * @ORM\Table(name="departments", uniqueConstraints={@ORM\UniqueConstraint(name="dept_name", columns={"dept_name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DepartmentRepository")
  */
-class Departments
+class Department
 {
     /**
      * @var string
@@ -33,14 +33,14 @@ class Departments
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Employees", mappedBy="deptNo")
+     * @ORM\ManyToMany(targetEntity="Employee", mappedBy="deptNo")
      */
     private $empNo;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Employees", mappedBy="deptNoTwo")
+     * @ORM\ManyToMany(targetEntity="Employee", mappedBy="deptNoTwo")
      */
     private $empNoTwo;
 
@@ -51,6 +51,11 @@ class Departments
     {
         $this->empNo = new ArrayCollection();
         $this->empNoTwo = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->deptName;
     }
 
     public function getDeptNo(): ?string
@@ -71,14 +76,14 @@ class Departments
     }
 
     /**
-     * @return Collection|Employees[]
+     * @return Collection|Employee[]
      */
     public function getEmpNo(): Collection
     {
         return $this->empNo;
     }
 
-    public function addEmpNo(Employees $empNo): self
+    public function addEmpNo(Employee $empNo): self
     {
         if (!$this->empNo->contains($empNo)) {
             $this->empNo[] = $empNo;
@@ -88,7 +93,7 @@ class Departments
         return $this;
     }
 
-    public function removeEmpNo(Employees $empNo): self
+    public function removeEmpNo(Employee $empNo): self
     {
         if ($this->empNo->contains($empNo)) {
             $this->empNo->removeElement($empNo);
@@ -99,14 +104,14 @@ class Departments
     }
 
     /**
-     * @return Collection|Employees[]
+     * @return Collection|Employee[]
      */
     public function getEmpNoTwo(): Collection
     {
         return $this->empNoTwo;
     }
 
-    public function addEmpNoTwo(Employees $empNoTwo): self
+    public function addEmpNoTwo(Employee $empNoTwo): self
     {
         if (!$this->empNoTwo->contains($empNoTwo)) {
             $this->empNoTwo[] = $empNoTwo;
@@ -116,7 +121,7 @@ class Departments
         return $this;
     }
 
-    public function removeEmpNoTwo(Employees $empNoTwo): self
+    public function removeEmpNoTwo(Employee $empNoTwo): self
     {
         if ($this->empNoTwo->contains($empNoTwo)) {
             $this->empNoTwo->removeElement($empNoTwo);
