@@ -33,27 +33,24 @@ class Department
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Employee", mappedBy="deptNo")
+     * @ORM\OneToMany(targetEntity="App\Entity\DeptEmployee", mappedBy="department", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
      */
-    private $empNo;
+    private $employees;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Employee", mappedBy="deptNoManager")
+     * @ORM\OneToMany(targetEntity="App\Entity\DeptManager", mappedBy="department", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
      */
-    private $empNoManager;
-
-    private $fromDate;
-    private $toDate;
+    private $employeesManagers;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->empNo = new ArrayCollection();
-        $this->empNoManager = new ArrayCollection();
+        $this->employees = new ArrayCollection();
+        $this->employeesManagers = new ArrayCollection();
     }
 
     public function __toString()
@@ -79,81 +76,63 @@ class Department
     }
 
     /**
-     * @return Collection|Employee[]
+     * @return Collection|DeptEmployee[]
      */
-    public function getEmpNo(): Collection
+    public function getEmployees(): Collection
     {
-        return $this->empNo;
+        return $this->employees;
     }
 
-    public function addEmpNo(Employee $empNo): self
+    public function addEmployees(DeptEmployee $employees): self
     {
-        if (!$this->empNo->contains($empNo)) {
-            $this->empNo[] = $empNo;
-            $empNo->addDeptNo($this);
+        if (!$this->employees->contains($employees)) {
+            $this->employees[] = $employees;
+            $employees->setDepartment($this);
         }
 
         return $this;
     }
 
-    public function removeEmpNo(Employee $empNo): self
+    public function removeEmployees(DeptEmployee $employees): self
     {
-        if ($this->empNo->contains($empNo)) {
-            $this->empNo->removeElement($empNo);
-            $empNo->removeDeptNo($this);
+        if ($this->employees->contains($employees)) {
+            $this->employees->removeElement($employees);
+            // set the owning side to null (unless already changed)
+            if ($employees->getDepartment() === $this) {
+                $employees->setDepartment(null);
+            }
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Employee[]
+     * @return Collection|DeptManager[]
      */
-    public function getEmpNoManager(): Collection
+    public function getEmployeesManagers(): Collection
     {
-        return $this->empNoManager;
+        return $this->employeesManagers;
     }
 
-    public function addEmpNoManager(Employee $empNoManager): self
+    public function addEmployeesManager(DeptManager $employeesManager): self
     {
-        if (!$this->empNoManager->contains($empNoManager)) {
-            $this->empNoManager[] = $empNoManager;
-            $empNoManager->addDeptNoTwo($this);
+        if (!$this->employeesManagers->contains($employeesManager)) {
+            $this->employeesManagers[] = $employeesManager;
+            $employeesManager->setDeptNo($this);
         }
 
         return $this;
     }
 
-    public function removeEmpNoManager(Employee $empNoManager): self
+    public function removeEmployeesManager(DeptManager $employeesManager): self
     {
-        if ($this->empNoManager->contains($empNoManager)) {
-            $this->empNoManager->removeElement($empNoManager);
-            $empNoManager->removeDeptNoTwo($this);
+        if ($this->employeesManagers->contains($employeesManager)) {
+            $this->employeesManagers->removeElement($employeesManager);
+            // set the owning side to null (unless already changed)
+            if ($employeesManager->getDeptNo() === $this) {
+                $employeesManager->setDeptNo(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function getFromDate(): ?\DateTimeInterface
-    {
-        return $this->fromDate;
-    }
-
-    public function setFromDate(\DateTimeInterface $fromDate): self
-    {
-        $this->fromDate = $fromDate;
-
-        return $this;
-    }
-
-    public function getToDate(): ?\DateTimeInterface
-    {
-        return $this->toDate;
-    }
-
-    public function setToDate(\DateTimeInterface $toDate): self
-    {
-        $this->toDate = $toDate;
 
         return $this;
     }

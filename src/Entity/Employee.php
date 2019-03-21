@@ -61,40 +61,29 @@ class Employee
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Department", inversedBy="empNo")
-     * @ORM\JoinTable(name="dept_manager",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="emp_no", referencedColumnName="emp_no")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="dept_no", referencedColumnName="dept_no")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="App\Entity\DeptEmployee", mappedBy="employee", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
      */
-    private $deptNo;
+    private $departments;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Department", inversedBy="empNo")
-     * @ORM\JoinTable(name="dept_emp",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="emp_no", referencedColumnName="emp_no")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="dept_no", referencedColumnName="dept_no")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="App\Entity\DeptManager", mappedBy="employee", cascade={"persist","remove"}, fetch="EXTRA_LAZY")
      */
-    private $deptNoManager;
+    private $departmentsManagers;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->deptNo = new ArrayCollection();
-        $this->deptNoManager = new ArrayCollection();
+        $this->departments = new ArrayCollection();
+        $this->departmentsManagers = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->firstName . " " . $this->lastName;
     }
 
     public function getEmpNo(): ?int
@@ -163,55 +152,64 @@ class Employee
     }
 
     /**
-     * @return Collection|Department[]
+     * @return Collection|DeptEmployee[]
      */
-    public function getDeptNo(): Collection
+    public function getDepartments(): Collection
     {
-        return $this->deptNo;
+        return $this->departments;
     }
 
-    public function addDeptNo(Department $deptNo): self
+    public function addDepartments(DeptEmployee $departments): self
     {
-        if (!$this->deptNo->contains($deptNo)) {
-            $this->deptNo[] = $deptNo;
+        if (!$this->departments->contains($departments)) {
+            $this->departments[] = $departments;
+            $departments->setEmployee($this);
         }
 
         return $this;
     }
 
-    public function removeDeptNo(Department $deptNo): self
+    public function removeDepartments(DeptEmployee $departments): self
     {
-        if ($this->deptNo->contains($deptNo)) {
-            $this->deptNo->removeElement($deptNo);
+        if ($this->departments->contains($departments)) {
+            $this->departments->removeElement($departments);
+            // set the owning side to null (unless already changed)
+            if ($departments->getEmployee() === $this) {
+                $departments->setEmployee(null);
+            }
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Department[]
+     * @return Collection|DeptManager[]
      */
-    public function getDeptNoManager(): Collection
+    public function getDepartmentsManagers(): Collection
     {
-        return $this->deptNoManager;
+        return $this->departmentsManagers;
     }
 
-    public function addDeptNoManager(Department $deptNoManager): self
+    public function addDepartmentsManager(DeptManager $departmentsManager): self
     {
-        if (!$this->deptNoManager->contains($deptNoManager)) {
-            $this->deptNoManager[] = $deptNoManager;
+        if (!$this->departmentsManagers->contains($departmentsManager)) {
+            $this->departmentsManagers[] = $departmentsManager;
+            $departmentsManager->setEmpNo($this);
         }
 
         return $this;
     }
 
-    public function removeDeptNoManager(Department $deptNoManager): self
+    public function removedepartmentsManager(DeptManager $departmentsManager): self
     {
-        if ($this->deptNoManager->contains($deptNoManager)) {
-            $this->deptNoManager->removeElement($deptNoManager);
+        if ($this->departmentsManagers->contains($departmentsManager)) {
+            $this->departmentsManagers->removeElement($departmentsManager);
+            // set the owning side to null (unless already changed)
+            if ($departmentsManager->getEmpNo() === $this) {
+                $departmentsManager->setEmpNo(null);
+            }
         }
 
         return $this;
     }
-
 }

@@ -3,10 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Employee;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,8 +18,22 @@ class EmployeeType extends AbstractType
             ->add('gender')
             ->add('birthDate')
             ->add('hireDate')
-            ->add('deptNo', DepartmentWithRangeDatesType::class)
-            ->add('deptNoManager', DepartmentWithRangeDatesType::class)
+
+            ->add('departments', CollectionType::class, [
+                'entry_type' => DeptEmployeeType::class,
+                'required' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'label' => 'Department'
+            ])
+            ->add('departmentsManagers', CollectionType::class, [
+                'entry_type' => DeptManagerType::class,
+                'required' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'label' => "Manager's Department"
+            ])
+
         ;
     }
 
